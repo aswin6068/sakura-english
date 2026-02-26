@@ -12,6 +12,7 @@ import tempfile
 from typing import Optional, List
 from contextlib import asynccontextmanager
 from pathlib import Path
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
@@ -204,7 +205,7 @@ class STTResponse(BaseModel):
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
-
+''' Basic health check and info endpoint 
 @app.get("/")
 def home():
     return {
@@ -216,8 +217,10 @@ def home():
             "stt":  STT_MODEL,
             "tts":  f"{TTS_MODEL} / {TTS_VOICE}",
         },
-    }
-
+    }'''
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/app")
 
 @app.get("/app", response_class=HTMLResponse)
 def serve_app():
